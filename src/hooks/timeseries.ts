@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { IAPIResponse } from "../types/timeseries";
 
-const apiUrl = process.env.NODE_ENV === 'development'
-  ? process.env?.API_URL
-  : process.env?.API_URL_PROD;
-
 function useFetchTimeSeries() {
   const [apiResponse, setApiResponse] = useState<IAPIResponse>();
 
@@ -14,12 +10,12 @@ function useFetchTimeSeries() {
   }, []);
 
   async function fetch_data(page: number = 1) {
-    const data: IAPIResponse = await (await fetch(`${apiUrl}/intraday?page=${page}`)).json();
+    const data: IAPIResponse = await (await fetch(`https://web-production-508e0.up.railway.app/intraday?page=${page}`)).json();
     setApiResponse(data);
   }
 
   async function refetch(page?: number) {
-   await fetch_data(page);
+    await fetch_data(page);
   }
 
   return { apiResponse, refetch };
